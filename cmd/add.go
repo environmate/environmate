@@ -24,13 +24,18 @@ import (
 var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Add a new environment variable",
+  Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("add called")
+		fmt.Println(args[0])
 	},
 }
 
 func init() {
+  var Env string
+  addCmd.Flags().StringVarP(&Env, "env", "e", "", "Which envonment to write the new variable to")
 	rootCmd.AddCommand(addCmd)
+  // rootCmd.MarkFlagRequired("env")
 
 	// Here you will define your flags and configuration settings.
 
