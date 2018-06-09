@@ -33,7 +33,7 @@ var addCmd = &cobra.Command{
 
 func init() {
   var Env string
-  addCmd.Flags().StringVarP(&Env, "env", "e", "", "Which environnment to write the new variable to")
+  addCmd.Flags().StringVarP(&Env, "env", "e", "", "Which environment to write the new variable to")
   addCmd.MarkFlagRequired("env")
 	rootCmd.AddCommand(addCmd)
 
