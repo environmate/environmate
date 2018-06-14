@@ -28,6 +28,7 @@ var addCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("add called")
 		fmt.Println(args[0])
+    fmt.Println(cmd.Flags().Lookup("env"))
 	},
 }
 
