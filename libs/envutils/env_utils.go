@@ -36,17 +36,3 @@ func WriteEnv(env string, envData Environment) {
 		fmt.Println(fmt.Sprintf("There was a problem writing the env (%v)", env))
 	}
 }
-
-func main() {
-	createEnv := Environment{}
-	createEnv.Vars = make([]Var, 0)
-	v := Var{
-		Name: "blah",
-		Value: "blahblah",
-	}
-	createEnv.Vars = append(createEnv.Vars, v)
-	WriteEnv("local", createEnv)
-	env := ReadEnv("local")
-	fmt.Println(env)
-	fmt.Println(env.Vars[0].Name)
-}
