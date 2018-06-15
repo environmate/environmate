@@ -16,7 +16,7 @@ type Environment struct {
 }
 
 func ReadEnv(env string) {
-  data, err := ioutil.ReadFile(fmt.Sprintf("%s.json.encrypted", env))
+  data, err := ioutil.ReadFile(fmt.Sprintf("%s.encrypted", env))
   if err != nil {
     fmt.Println("Error")
     fmt.Println(err)
