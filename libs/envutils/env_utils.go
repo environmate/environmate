@@ -16,11 +16,11 @@ type Environment struct {
 	Vars [] Var `json:"vars"`
 }
 
-func ReadEnv(env string) Environment {
+func ReadEnv(env string, key string) Environment {
 	var e Environment
-	key := []byte("ehIEOgie$4c~rVy{[;U_;&.&-K9gV&yp")
+	keyBytes := []byte(key)
   data, _ := ioutil.ReadFile(fmt.Sprintf("%s.encrypted", env))
-	envJson, _ := aes.Decrypt(key, string(data))
+	envJson, _ := aes.Decrypt(keyBytes, string(data))
 	err := json.Unmarshal([]byte(envJson), &e)
 	if err != nil {
 		panic(err)
@@ -28,10 +28,10 @@ func ReadEnv(env string) Environment {
 	return e
 }
 
-func WriteEnv(env string, envData Environment) {
-	key := []byte("ehIEOgie$4c~rVy{[;U_;&.&-K9gV&yp")
+func WriteEnv(env string, key string, envData Environment) {
+	keyBytes := []byte(key)
 	envJson, _ := json.Marshal(envData)
-	encryptedJson, _ := aes.Encrypt(key, string(envJson))
+	encryptedJson, _ := aes.Encrypt(keyBytes, string(envJson))
 	if err := ioutil.WriteFile(fmt.Sprintf("%v.encrypted", env), []byte(encryptedJson), 0644); err != nil {
 		fmt.Println(fmt.Sprintf("There was a problem writing the env (%v)", env))
 	}
