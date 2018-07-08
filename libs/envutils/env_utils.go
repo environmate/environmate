@@ -100,7 +100,7 @@ func CreateEnv(env string, key string) {
 }
 
 func ListEnvs(env string, key string) {
-  extension := ".json.encrypted"
+  extension := ".encrypted"
   files, err := ioutil.ReadDir("./*" + extension)
   if err != nil {
     log.Fatal(err)
