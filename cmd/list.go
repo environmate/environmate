@@ -15,7 +15,6 @@
 package cmd
 
 import (
-	"fmt"
 
   "environmate/libs/envutils"
 	"github.com/spf13/cobra"
@@ -27,9 +26,7 @@ var listCmd = &cobra.Command{
 	Short: "List all variables",
 	Run: func(cmd *cobra.Command, args []string) {
     envName := string(cmd.Flags().Lookup("env").Value.String())
-    env := envutils.ReadEnv(envName, "ehIEOgie$4c~rVy{[;U_;&.&-K9gV&yp")
-    fmt.Printf("%+v\n", env)
-
+    envutils.ListEnvs(envName, "ehIEOgie$4c~rVy{[;U_;&.&-K9gV&yp")
 	},
 }
 

@@ -17,19 +17,28 @@ package cmd
 import (
 	"fmt"
 
+  "environmate/libs/envutils"
 	"github.com/spf13/cobra"
 )
+
+var env string
+var key string
 
 // createCmd represents the create command
 var createCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a new environment",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("create called")
+		fmt.Println(fmt.Sprintf("Creating env (%v)...", env))
+    envutils.CreateEnv(env, key)
 	},
 }
 
 func init() {
+	createCmd.Flags().StringVarP(&env, "env", "e", "", "The name of the environment that will be created")
+	createCmd.Flags().StringVarP(&key, "key", "k", "", "The key used to decrypt and encrypt the environments")
+	createCmd.MarkFlagRequired("env")
+	createCmd.MarkFlagRequired("key")
 	rootCmd.AddCommand(createCmd)
 
 	// Here you will define your flags and configuration settings.
