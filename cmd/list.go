@@ -15,8 +15,8 @@
 package cmd
 
 import (
-	"fmt"
 
+  "environmate/libs/envutils"
 	"github.com/spf13/cobra"
 )
 
@@ -25,11 +25,15 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all variables",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+    envName := string(cmd.Flags().Lookup("env").Value.String())
+    envutils.ListEnvs(envName, "ehIEOgie$4c~rVy{[;U_;&.&-K9gV&yp")
 	},
 }
 
 func init() {
+  var Env string
+  listCmd.Flags().StringVarP(&Env, "env", "e", "", "Which environment to write the new variable to")
+  listCmd.MarkFlagRequired("env")
 	rootCmd.AddCommand(listCmd)
 
 	// Here you will define your flags and configuration settings.

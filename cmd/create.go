@@ -15,21 +15,14 @@
 package cmd
 
 import (
-	"io/ioutil"
 	"fmt"
 
-	"encoding/json"
+  "environmate/libs/envutils"
 	"github.com/spf13/cobra"
 )
 
 var env string
-type Var struct {
-	Name	string `json:"name"`
-	Value string `json:"value"`
-}
-type Environment struct {
-	Vars [] Var `json:"vars"`
-}
+var key string
 
 // createCmd represents the create command
 var createCmd = &cobra.Command{
@@ -37,21 +30,15 @@ var createCmd = &cobra.Command{
 	Short: "Create a new environment",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(fmt.Sprintf("Creating env (%v)...", env))
-		createEnv := Environment{}
-		createEnv.Vars = make([]Var, 0)
-
-		envJson, _ := json.Marshal(createEnv)
-		if err := ioutil.WriteFile(fmt.Sprintf("%v.json", env), envJson, 0644); err == nil {
-			fmt.Println(fmt.Sprintf("Successfully created env (%v)", env))
-		} else {
-			fmt.Println(fmt.Sprintf("There was a problem creating the env (%v)", env))
-		}
+    envutils.CreateEnv(env, key)
 	},
 }
 
 func init() {
 	createCmd.Flags().StringVarP(&env, "env", "e", "", "The name of the environment that will be created")
+	createCmd.Flags().StringVarP(&key, "key", "k", "", "The key used to decrypt and encrypt the environments")
 	createCmd.MarkFlagRequired("env")
+	createCmd.MarkFlagRequired("key")
 	rootCmd.AddCommand(createCmd)
 
 	// Here you will define your flags and configuration settings.
