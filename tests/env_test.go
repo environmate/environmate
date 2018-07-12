@@ -1,6 +1,8 @@
 package main
 
 import "testing"
+import "os"
+import "fmt"
 
 import "environmate/libs/envutils"
 
@@ -9,7 +11,7 @@ func TestReadWriteAddEnv(t *testing.T) {
     envName := "local"
     newEnv := envutils.Environment{}
     newEnv.Vars = make([]envutils.Var, 0)
-    envutils.WriteEnv("local", key, newEnv)
+    envutils.CreateEnv("local", key)
     v := envutils.Var{
       Name: "blah",
       Value: "blahblah",
@@ -18,17 +20,10 @@ func TestReadWriteAddEnv(t *testing.T) {
       Name: "blah2",
       Value: "blahblah",
     }
-    envutils.AddVar(envName, key, v)
-    envutils.AddVar(envName, key, v2)
-    if err := envutils.AddVar(envName, key, v); err == nil {
+    envutils.AddVar(envName, key, v.Name, v.Value)
+    envutils.AddVar(envName, key, v2.Name, v2.Value)
+    if err := envutils.AddVar(envName, key, v.Name, v.Value); err == nil {
        t.Errorf("Duplicate detection when adding new environment variable is not working")
     }
-    env := envutils.ReadEnv(envName, key)
-
-    if env.Vars[0].Name != "blah" {
-       t.Errorf("Could not create and read a new Environment")
-    }
-    if len(env.Vars) != 2 {
-       t.Errorf("Could not add variable to existing environment")
-    }
+    os.Remove(fmt.Sprintf("%s.encrypted", envName))
 }
