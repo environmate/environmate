@@ -21,9 +21,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var env string
-var key string
-
 // createCmd represents the create command
 var createCmd = &cobra.Command{
 	Use:   "create",

@@ -17,6 +17,7 @@ package cmd
 import (
 	"fmt"
 
+  "environmate/libs/envutils"
 	"github.com/spf13/cobra"
 )
 
@@ -24,18 +25,22 @@ import (
 var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Add a new environment variable",
-  Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
-		fmt.Println(args[0])
-    fmt.Println(cmd.Flags().Lookup("env"))
+    fmt.Println(fmt.Sprintf("Adding variable %s to %s...", varName, env))
+    envutils.AddVar(env, key, varName, varValue)
+    fmt.Println("variable added successfully!")
 	},
 }
 
 func init() {
-  var Env string
-  addCmd.Flags().StringVarP(&Env, "env", "e", "", "Which environment to write the new variable to")
-  addCmd.MarkFlagRequired("env")
+  addCmd.Flags().StringVarP(&env, "env", "e", "", "The name of the environment that will be created")
+	addCmd.Flags().StringVarP(&key, "key", "k", "", "The key used to decrypt and encrypt the environments")
+	addCmd.Flags().StringVarP(&varName, "name", "n", "", "The name of the variable to be added")
+	addCmd.Flags().StringVarP(&varValue, "value", "v", "", "The value of the variable to be added")
+	addCmd.MarkFlagRequired("env")
+	addCmd.MarkFlagRequired("key")
+	addCmd.MarkFlagRequired("name")
+	addCmd.MarkFlagRequired("value")
 	rootCmd.AddCommand(addCmd)
 
 	// Here you will define your flags and configuration settings.
