@@ -24,6 +24,10 @@ import (
 )
 
 var cfgFile string
+var env string
+var key string
+var varName string
+var varValue string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{

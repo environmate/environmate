@@ -43,7 +43,10 @@ func readEnv(env string, key string) Environment {
 func writeEnv(env string, key string, envData Environment) error {
   keyBytes := []byte(key)
   envJson, _ := json.Marshal(envData)
-  encryptedJson, _ := aes.Encrypt(keyBytes, string(envJson))
+  encryptedJson, aesErr := aes.Encrypt(keyBytes, string(envJson))
+  if (aesErr != nil) {
+    return aesErr
+  }
   if err := ioutil.WriteFile(fmt.Sprintf("%v.encrypted", env), []byte(encryptedJson), 0644); err != nil {
     return err
   }
@@ -88,7 +91,6 @@ func UpdateVar(env string, key string, varName string, varValue string) error {
 }
 
 func CreateEnv(env string, key string) {
-  fmt.Println(fmt.Sprintf("Creating env (%v)...", env))
   newEnv := Environment{}
   newEnv.Vars = make([]Var, 0)
 
